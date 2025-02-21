@@ -69,6 +69,231 @@ async function showFamousPlaces() {
     }
 }
 
+// Fetch and display festivals for the selected country
+function showFestivals() {
+    document.getElementById("imageGallery").innerHTML = "";
+    console.log(selectedCountry);
+    
+    if (!selectedCountry) return;
+
+    const countryFestivals = datas.countries.find(
+        country => country.name.toLowerCase() === selectedCountry.toLowerCase()
+    );
+
+    const detailsPanel = document.getElementById("detailsContent");
+
+    if (!countryFestivals || !countryFestivals.festivals || countryFestivals.festivals.length === 0) {
+        // Fallback message when there are no festivals
+        detailsPanel.innerHTML = `
+            <h2>${selectedCountry} Festivals</h2>
+            <p>No festivals available for ${selectedCountry}.</p>
+        `;
+    } else {
+        // Display festivals if they exist
+        detailsPanel.innerHTML = `
+            <h2>${selectedCountry} Festivals</h2>
+            <div class="festival-list">
+                ${countryFestivals.festivals
+                    .map(
+                        festival => `
+                    <div class="festival-card">
+                        <img src="${festival.image_url}" alt="${festival.name}">
+                        <h3>${festival.name}</h3>
+                        <p>${festival.description}</p>
+                        <p><strong>Date:</strong> ${festival.date}</p>
+                    </div>
+                `
+                    )
+                    .join('')}
+            </div>
+        `;
+    }
+
+    document.getElementById("detailsPanel").classList.add("open");
+}
+
+
+//  Fetch and display sports for the selected country
+function showSports() {
+    document.getElementById("imageGallery").innerHTML = "";
+    if (!selectedCountry) return;
+
+    const countrysports = sports.countries.find(
+        country => country.name.toLowerCase() === selectedCountry.toLowerCase()
+    );
+
+    const detailsPanel = document.getElementById("detailsContent");
+
+    if (!countrysports || !countrysports.nationalSport) {
+        // Fallback message when there are no sports
+        detailsPanel.innerHTML = `
+            <h2>${selectedCountry} National Sports</h2>
+            <p>No national sports available for ${selectedCountry}.</p>
+        `;
+    } else {
+        // Display sports if they exist
+        detailsPanel.innerHTML = `
+            <h2>${selectedCountry} National Sports</h2>
+            <div class="festival-list">
+                <div class="festival-card">
+                    <img src="${countrysports.image}" alt="${countrysports.name}">
+                    <h3>${countrysports.name}</h3>
+                    <p><strong>National Sport:</strong> ${countrysports.nationalSport}</p>
+                    <h4>${countrysports.description}</h4>
+                </div>
+            </div>
+        `;
+    }
+
+    document.getElementById("detailsPanel").classList.add("open");
+}
+
+
+
+// Populate options in the sidebar
+function populateOptions() {
+    const options = document.getElementById("options");
+    options.innerHTML = ""; // Clear previous options
+
+    const countryDetailsOption = document.createElement("div");
+    countryDetailsOption.classList.add("option");
+    countryDetailsOption.innerHTML =`<i class="fa-solid fa-globe"></i> Country Details`;
+    countryDetailsOption.addEventListener("click", showCountryDetails);
+    options.appendChild(countryDetailsOption);
+
+    const famousPlacesOption = document.createElement("div");
+    famousPlacesOption.classList.add("option");
+    famousPlacesOption.innerHTML =`<i class="fa-solid fa-location-dot"></i> Famous Places`;
+    famousPlacesOption.addEventListener("click", showFamousPlaces);
+    options.appendChild(famousPlacesOption);
+
+    const festivalOption = document.createElement("div");
+    festivalOption.classList.add("option");
+    festivalOption.innerHTML =`<i class="fa-solid fa-snowflake"></i> Festivals`;
+    festivalOption.addEventListener("click", showFestivals);
+    options.appendChild(festivalOption);
+
+
+    const sportsOption = document.createElement("div");
+    sportsOption.classList.add("option");
+    sportsOption.innerHTML =`<i class="fa-solid fa-football"></i> Sports`;
+    sportsOption.addEventListener("click", showSports);
+    options.appendChild(sportsOption);
+
+    const sportsOption2 = document.createElement("div");
+    sportsOption2.classList.add("option");
+    sportsOption2.innerHTML =`<i class="fa-solid fa-cloud"></i> Weather`;
+    sportsOption2.addEventListener("click", showWeather);
+    options.appendChild(sportsOption2);
+
+
+}
+ 
+
+
+// Close the details panel
+document.querySelector(".closeDetails").addEventListener("click", function() {
+    document.getElementById("detailsPanel").classList.remove("open");
+});
+
+// Add event listeners to the map paths
+document.querySelectorAll(".allPaths").forEach(e => {
+    e.addEventListener("mouseover", function() {
+        window.onmousemove = function(j) {
+            const x = j.clientX;
+            const y = j.clientY;
+            const nameDiv = document.getElementById('name');
+            nameDiv.style.top = y - 20 + 'px';
+            nameDiv.style.left = x + 10 + 'px';
+        };
+        e.style.fill = "aqua";
+        document.getElementById("namep").innerText = e.id;
+        document.getElementById("name").style.opacity = 1;
+    });
+
+    e.addEventListener("mouseleave", function() {
+        e.style.fill = "#ececec";
+        document.getElementById("name").style.opacity = 0;
+    });
+
+    e.addEventListener("click", function() {
+        selectedCountry = e.id; // Set the selected country
+        populateOptions(); // Populate sidebar options
+        document.getElementById("sidePanel").classList.add("open");
+    });
+});
+
+// Close the sidebar
+document.getElementById("closeButton").addEventListener("click", function() {
+    document.getElementById("sidePanel").classList.remove("open");
+});
+
+
+// Fetch weather details
+
+
+const weatherApiKey = "5afa4206abf5802c12aab782fc9a3eb3";
+const weatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+const weatherIcon = document.querySelector(".weather-icon");
+
+// Fetch and display weather data for the selected country
+async function showWeather() {
+    document.getElementById("imageGallery").innerHTML = "";
+if (!selectedCountry) return;
+
+// Use the selected country's name as the default city
+const city = selectedCountry;
+
+const response = await fetch(weatherApiUrl + city + `&appid=${weatherApiKey}`);
+if (response.status === 404) {
+    document.querySelector(".weather-info").innerHTML = `<p>Weather data not available for ${selectedCountry}.</p>`;
+} else {
+    const data = await response.json();
+    const detailsPanel = document.getElementById("detailsContent");
+    
+
+
+detailsPanel.innerHTML = `
+  <h2>${selectedCountry} Weather</h2>
+  <div class="festival-list">
+      <div class="festival-card">
+          
+          <h3>${data.name}</h3>
+          <div class= "pic">
+          <img src="${getWeatherIcon(data.weather[0].main)}" alt="${data.weather[0].main}"></div>
+          <p><strong>Temperature</strong> ${Math.round(data.main.temp)}°C</p>
+          <p><strong>Humadity</strong> ${data.main.humidity }%</p>
+          <p><strong>Wind</strong> ${data.wind.speed} km/h</p>
+        
+          
+          
+      </div>
+  </div>
+`;
+
+// Helper function to determine the weather icon
+function getWeatherIcon(weatherCondition) {
+switch (weatherCondition) {
+case "Clouds":
+    return "images/cloud.png";
+case "Clear":
+    return "images/clear.png";
+case "Rain":
+    return "images/rain.png";
+case "Drizzle":
+    return "images/drizzle.png";
+case "Mist":
+    return "images/mist.png";
+default:
+    return "images/weather-default.png"; // Fallback for unknown conditions
+}
+}
+  
+// Show the weather panel
+document.getElementById("detailsPanel").classList.add("open");
+}
+}
+
 
 // ---------------------------------------Festivals---------------------------------------
 
@@ -4918,215 +5143,4 @@ let sports = {
 
 
 
-
-
-
-//  Fetch and display festivals for the selected country
-function showFestivals() {
-    document.getElementById("imageGallery").innerHTML = "";
-if (!selectedCountry) return;
-const countryFestivals = datas.countries.find(
-    country => country.name.toLowerCase() === selectedCountry.toLowerCase()
-);
-
-const detailsPanel = document.getElementById("detailsContent");
-detailsPanel.innerHTML = `
-    <h2>${selectedCountry} Festivals</h2>
-    <div class="festival-list">
-        ${countryFestivals.festivals
-            .map(
-                festival => `
-            <div class="festival-card">
-                <img src="${festival.image_url}" alt="${festival.name}">
-                <h3>${festival.name}</h3>
-                <p>${festival.description}</p>
-                <p><strong>Date:</strong> ${festival.date}</p>
-            </div>
-        `
-            )
-            .join('')}
-    </div>
-`;
-document.getElementById("detailsPanel").classList.add("open");
-}
-
-//  Fetch and display sports for the selected country
-function showSports() {
-    document.getElementById("imageGallery").innerHTML = "";
-if (!selectedCountry) return;
-const countrysports = sports.countries.find(
-country => country.name.toLowerCase() === selectedCountry.toLowerCase()
-);
-if (!countrysports) {
-document.getElementById("detailsContent").innerHTML = `<p>Country not found.</p>`;
-return;
-}
-
-
-const detailsPanel = document.getElementById("detailsContent");
-
-
-detailsPanel.innerHTML = `
-<h2>${selectedCountry} National Sports</h2>
-<div class="festival-list">
-    <div class="festival-card">
-        <img src="${countrysports.image}" alt="${countrysports.name}">
-        <h3>${countrysports.name}</h3>
-        <p><strong>National Sport:</strong> ${countrysports.nationalSport}</p>
-        <h4>${countrysports.description}</h4>
-    </div>
-</div>
-`;
-
-
-document.getElementById("detailsPanel").classList.add("open");
-}
-
-
-
-
-
-// Populate options in the sidebar
-function populateOptions() {
-    const options = document.getElementById("options");
-    options.innerHTML = ""; // Clear previous options
-
-    const countryDetailsOption = document.createElement("div");
-    countryDetailsOption.classList.add("option");
-    countryDetailsOption.innerHTML =`<i class="fa-solid fa-globe"></i> Country Details`;
-    countryDetailsOption.addEventListener("click", showCountryDetails);
-    options.appendChild(countryDetailsOption);
-
-    const famousPlacesOption = document.createElement("div");
-    famousPlacesOption.classList.add("option");
-    famousPlacesOption.innerHTML =`<i class="fa-solid fa-location-dot"></i> Famous Places`;
-    famousPlacesOption.addEventListener("click", showFamousPlaces);
-    options.appendChild(famousPlacesOption);
-
-    const festivalOption = document.createElement("div");
-    festivalOption.classList.add("option");
-    festivalOption.innerHTML =`<i class="fa-solid fa-snowflake"></i> Festivals`;
-    festivalOption.addEventListener("click", showFestivals);
-    options.appendChild(festivalOption);
-
-
-    const sportsOption = document.createElement("div");
-    sportsOption.classList.add("option");
-    sportsOption.innerHTML =`<i class="fa-solid fa-football"></i> Sports`;
-    sportsOption.addEventListener("click", showSports);
-    options.appendChild(sportsOption);
-
-    const sportsOption2 = document.createElement("div");
-    sportsOption2.classList.add("option");
-    sportsOption2.innerHTML =`<i class="fa-solid fa-cloud"></i> Weather`;
-    sportsOption2.addEventListener("click", showWeather);
-    options.appendChild(sportsOption2);
-
-
-}
- 
-
-
-// Close the details panel
-document.querySelector(".closeDetails").addEventListener("click", function() {
-    document.getElementById("detailsPanel").classList.remove("open");
-});
-
-// Add event listeners to the map paths
-document.querySelectorAll(".allPaths").forEach(e => {
-    e.addEventListener("mouseover", function() {
-        window.onmousemove = function(j) {
-            const x = j.clientX;
-            const y = j.clientY;
-            const nameDiv = document.getElementById('name');
-            nameDiv.style.top = y - 20 + 'px';
-            nameDiv.style.left = x + 10 + 'px';
-        };
-        e.style.fill = "aqua";
-        document.getElementById("namep").innerText = e.id;
-        document.getElementById("name").style.opacity = 1;
-    });
-
-    e.addEventListener("mouseleave", function() {
-        e.style.fill = "#ececec";
-        document.getElementById("name").style.opacity = 0;
-    });
-
-    e.addEventListener("click", function() {
-        selectedCountry = e.id; // Set the selected country
-        populateOptions(); // Populate sidebar options
-        document.getElementById("sidePanel").classList.add("open");
-    });
-});
-
-// Close the sidebar
-document.getElementById("closeButton").addEventListener("click", function() {
-    document.getElementById("sidePanel").classList.remove("open");
-});
-
-
-// Fetch weather details
-
-
-const weatherApiKey = "5afa4206abf5802c12aab782fc9a3eb3";
-const weatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
-const weatherIcon = document.querySelector(".weather-icon");
-
-// Fetch and display weather data for the selected country
-async function showWeather() {
-    document.getElementById("imageGallery").innerHTML = "";
-if (!selectedCountry) return;
-
-// Use the selected country's name as the default city
-const city = selectedCountry;
-
-const response = await fetch(weatherApiUrl + city + `&appid=${weatherApiKey}`);
-if (response.status === 404) {
-    document.querySelector(".weather-info").innerHTML = `<p>Weather data not available for ${selectedCountry}.</p>`;
-} else {
-    const data = await response.json();
-    const detailsPanel = document.getElementById("detailsContent");
-    
-
-
-detailsPanel.innerHTML = `
-  <h2>${selectedCountry} Weather</h2>
-  <div class="festival-list">
-      <div class="festival-card">
-          
-          <h3>${data.name}</h3>
-          <div class= "pic">
-          <img src="${getWeatherIcon(data.weather[0].main)}" alt="${data.weather[0].main}"></div>
-          <p><strong>Temperature</strong> ${Math.round(data.main.temp)}°C</p>
-          <p><strong>Humadity</strong> ${data.main.humidity }%</p>
-          <p><strong>Wind</strong> ${data.wind.speed} km/h</p>
-        
-          
-          
-      </div>
-  </div>
-`;
-
-// Helper function to determine the weather icon
-function getWeatherIcon(weatherCondition) {
-switch (weatherCondition) {
-case "Clouds":
-    return "images/cloud.png";
-case "Clear":
-    return "images/clear.png";
-case "Rain":
-    return "images/rain.png";
-case "Drizzle":
-    return "images/drizzle.png";
-case "Mist":
-    return "images/mist.png";
-default:
-    return "images/weather-default.png"; // Fallback for unknown conditions
-}
-}
-  
-// Show the weather panel
-document.getElementById("detailsPanel").classList.add("open");
-}
-}
 

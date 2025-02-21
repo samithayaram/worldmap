@@ -28,41 +28,39 @@ svg path {
     
 }
 
-/*---------------- left sidepanel--------------------------- */
+/* ---------------- Left Side Panel --------------------------- */
+/* ---------------- Left Side Panel --------------------------- */
 #sidePanel {
     font-family: "Poppins", serif;
-  font-weight: 600;
-  font-style: normal;
+    font-weight: 600;
+    font-style: normal;
     position: fixed;
-    left: -400px;
+    left: -100%;
     top: 0;
-    width: 300px;
+    width: 20%; /* Initially set width for desktop */
     height: 100%;
     background-color: #f4f4f4;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
     transition: left 0.3s ease;
     padding: 20px;
+    z-index: 10; /* Lower z-index so it's below the right panel */
 }
+
 #sidePanel.open {
     left: 0;
 }
+
 #sidePanel h2 {
-    font-family: "Poppins", serif;
-  font-weight: 600;
-  font-style: normal;
-    margin: 0;
     font-size: 30px;
     margin-top: 10px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
+
 #sidePanel .option {
     background-color: #ddd;
-    font-family: "Poppins", serif;
-  font-weight: 600;
-  font-style: normal;
     padding: 25px;
     margin: 5px 0;
     border-radius: 5px;
@@ -71,55 +69,51 @@ svg path {
     margin-top: 30px;
     transition: background-color 0.2s ease;
 }
+
 #sidePanel .option:hover {
     background-color: #ccc;
     color: rgb(253, 255, 255);
 }
+
 #closeButton {
-    font-family: "Poppins", serif;
-  font-weight: 600;
-  font-style: normal;
     display: inline-block;
     background-color: red;
     width: 40px;
     color: white;
-    padding: 10px 20px;           
+    padding: 10px 20px;
     border: none;
     cursor: pointer;
     font-size: 16px;
     border-radius: 5px;
     text-align: center;
-    cursor: pointer;
     position: absolute;
     top: 10px;
     right: 10px;
-    margin-top: 20px;
 }
+
 #closeButton:hover {
     background-color: darkred;
 }
 
-/* -------------------- Right sidepanel---------------------- */
-#detailsPanel{
+/* ---------------- Right Side Panel ---------------- */
+#detailsPanel {
     position: fixed;
     right: -100%;
     top: 0;
-    width: 68%;
-    /* max-width: 156vh; */
+    width: 60%; /* Initially set width for desktop */
     height: 100%;
     background-color: whitesmoke;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
     transition: right 0.3s ease-in-out;
     padding: 20px;
-    z-index: 10;
-    font-family: "Poppins", serif;
-    font-weight: 600;
-    font-style: normal;
+    z-index: 20; /* Higher z-index so it appears above the left panel */
 }
+
 #detailsPanel.open {
     right: 0;
-} 
+}
+
 #detailsPanel .closeDetails {
     display: inline-block;
     background-color: blue;
@@ -135,8 +129,8 @@ svg path {
     position: absolute;
     top: 10px;
     left: 10px;
-    
 }
+
 #detailsPanel .closeDetails:hover {
     background-color: darkred;
 }
@@ -148,20 +142,87 @@ svg path {
 }
 
 #detailsContent h2 {
-    font-family: "Poppins", serif;
-  font-weight: 600;
-  font-style: normal;
-font-size: 40px;
-color: #444;
-margin-bottom: 20px;
+    font-size: 40px;
+    color: #444;
+    margin-bottom: 20px;
 }
 
+/* ---------------- World Map ---------------- */
+#worldMap {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* ---------------------------- Responsive Styles ---------------------------- */
+@media (max-width: 642px) {
+    /* Left Panel */
+    #sidePanel {
+        width: 80%; /* Increased to fit on mobile screen */
+        left: -100%;
+    }
+
+    #sidePanel.open {
+        left: 0;
+    }
+
+    /* Right Panel */
+    #detailsPanel {
+        width: 80%; /* Adjust to fit on mobile */
+        right: -100%;
+        top: 0; /* Align top of right panel with top of the screen */
+    }
+
+    #detailsPanel.open {
+        right: 0;
+    }
+
+    /* World Map */
+    #worldMap {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    /* Close buttons and back button */
+    #closeButton {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    .closeDetails {
+        position : relative;
+        padding : 100px;
+        /* padding: 20px 0px 0px 0px; */
+        font-size: 14px;
+    }
+
+    #sidePanel h2 {
+        font-size: 25px; /* Adjust font size for mobile */
+    }
+
+    #detailsContent h2 {
+        font-size: 30px; /* Adjust font size for mobile */
+    }
+
+    #sidePanel .option {
+        padding: 15px; /* Adjust option padding */
+        font-size: 14px;
+    }
+}
+
+
+
+
+/* Gallery Styles */
 #imageGallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px 20px;
+    gap: 20px;
     padding: 20px;
 }
+
 #imageGallery img {
     width: 100%;
     height: 300px;
@@ -169,12 +230,28 @@ margin-bottom: 20px;
     border-radius: 5px;
     transition: transform 0.2s;
 }
+
 #imageGallery img:hover {
     transform: scale(1.05);
 }
 
+/* Responsive Gallery */
+@media (max-width: 768px) {
+    #imageGallery {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    #imageGallery {
+        grid-template-columns: 1fr; /* 1 column for mobile screens */
+    }
+}
+
+
 /*---------------- Country Card Style ------------------------ */
-.country-card {
+/* Country Card Styles */
+.country-card { 
     margin-top: 40px;
     width: 400px;
     background-color: white;
@@ -186,40 +263,96 @@ margin-bottom: 20px;
     font-weight: 600;
     font-style: normal;
 }
+
 .country-card img {
     width: 60%;
     height: 150px;
     border-bottom: 1px solid #ddd;
     margin-top: 20px;
 }
+
 .country-card .card-header {
     padding: 20px 0px 0px 0px;
     text-align: center;
 }
+
 .country-card h2 {
     font-size: 30px;
     font-weight: bold;
     color: #333;
 }
+
 .country-card .details {
     padding: 20px;
     color: #555;
 }
+
 .country-card .details p {
     font-size: 18px;
     margin: 10px 0;
 }
+
 .country-card .details p strong {
     font-weight: bold;
     color: #333;
     font-size: 20px;
 }
+
 .country-card .details .capital,
 .country-card .details .population,
 .country-card .details .region,
 .country-card .details .languages {
     margin-top: 15px;
 }
+
+/* ---------------------------- Mobile Responsive Styles ---------------------------- */
+@media (max-width: 768px) {
+    .country-card {
+        width: 100%; /* Full width for tablets */
+        margin: 20px 0; /* Adjust margins for smaller screens */
+    }
+
+    .country-card img {
+        width: 100%; /* Image should take full width */
+        height: 200px; /* Adjust image height for better mobile fit */
+    }
+
+    .country-card h2 {
+        font-size: 24px; /* Smaller font size for titles */
+    }
+
+    .country-card .details p {
+        font-size: 16px; /* Smaller font size for text */
+    }
+
+    .country-card .details p strong {
+        font-size: 18px; /* Adjust strong text size */
+    }
+}
+
+@media (max-width: 480px) {
+    .country-card {
+        width: 100%; /* Full width for mobile screens */
+        margin: 15px 0; /* Adjust margins for small mobile devices */
+    }
+
+    .country-card img {
+        height: 180px; /* Slightly smaller image height for mobile */
+    }
+
+    .country-card h2 {
+        font-size: 20px; /* Even smaller font size for mobile */
+    }
+
+    .country-card .details p {
+        font-size: 14px; /* Further reduce text size */
+    }
+
+    .country-card .details p strong {
+        font-size: 16px; /* Adjust font size of strong text */
+    }
+}
+
 
 /* Festival List */
 .festival-list {
@@ -299,3 +432,5 @@ width: 100%;
 margin: 0 auto;
 }
 }
+
+

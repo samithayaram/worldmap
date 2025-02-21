@@ -21,12 +21,16 @@ const db = getFirestore(app);
 // Registration function
 async function register(email, password) {
   try {
+    console.log(email,password , "firebase");
+    
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    await setDoc(doc(db, "users", userCredential.user.uid), {
-      email: userCredential.user.email,
-      uid: userCredential.user.uid,
-      createdAt: new Date()
-    });
+    console.log(userCredential.user);
+    
+    // await setDoc(doc(db, "users", userCredential.user.uid), {
+    //   email: userCredential.user.email,
+    //   uid: userCredential.user.uid,
+    //   createdAt: new Date()
+    // });
     alert("User registered successfully!Please Sign in to continue....");
   } catch (error) {
     console.error("Registration error:", error);
@@ -39,7 +43,7 @@ async function signIn(email, password) {
   try {
     await signInWithEmailAndPassword(auth, email, password);
     alert("Sign in successful!");
-    window.location.href='./main.html';
+    window.location.href='worldmap.html';
   } catch (error) {
     console.error("Sign-in error:", error);
     alert(error.message);
@@ -48,9 +52,15 @@ async function signIn(email, password) {
 }
 
 // Event listeners for form submission
-document.getElementById("btn1").addEventListener("click", (e) => {
+document.getElementById("signUpForm").addEventListener("submit", (e) => {
   e.preventDefault();
-  register(document.getElementById("remail").value, document.getElementById("rpassword").value);
+  let email = document.getElementById("remail").value;
+  let password = document.getElementById("rpassword").value;
+
+  console.log(email,password , "form submit");
+  
+
+  register(email,password );
 });
 
 document.getElementById("btn2").addEventListener("click", (e) => {
