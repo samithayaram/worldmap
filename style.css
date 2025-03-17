@@ -10,25 +10,19 @@ body {
     overflow-y: hidden;
     background-color: rgb(39, 44, 67);
 }
-#name {
-    font-family: "Poppins", serif;
-  font-weight: 600;
-  font-style: normal;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-    width: fit-content;
-    opacity: 0;
-    border-radius: 5px;
-    padding: 10px 10px;
-    font-size: 1.5rem;
+.name{
+    text-align: center;
+    color: white;
+    font-size: 40px;
     font-weight: bold;
+    font-family: sans-serif;
 }
+
 svg path {
     cursor: pointer;
     
 }
 
-/* ---------------- Left Side Panel --------------------------- */
 /* ---------------- Left Side Panel --------------------------- */
 #sidePanel {
     font-family: "Poppins", serif;
@@ -95,7 +89,7 @@ svg path {
     background-color: darkred;
 }
 
-/* ---------------- Right Side Panel ---------------- */
+/* ---------------- Right Side Panel (Initially Hidden) ---------------- */
 #detailsPanel {
     position: fixed;
     right: -100%;
@@ -108,10 +102,12 @@ svg path {
     transition: right 0.3s ease-in-out;
     padding: 20px;
     z-index: 20; /* Higher z-index so it appears above the left panel */
+    display: none; /* Hide by default */
 }
 
 #detailsPanel.open {
     right: 0;
+    display: block; /* Show when open */
 }
 
 #detailsPanel .closeDetails {
@@ -153,6 +149,7 @@ svg path {
     max-width: 100%;
     height: auto;
     object-fit: contain;
+    display: block; /* Ensures proper centering */
 }
 
 /* ---------------------------- Responsive Styles ---------------------------- */
@@ -180,22 +177,64 @@ svg path {
 
     /* World Map */
     #worldMap {
-        width: 100%;
+        width: 90%; /* Reduce width slightly for better mobile fit */
         height: auto;
-        object-fit: cover;
+        display: block;
+        margin: 30px auto; /* Moves it down for better spacing */
     }
+}
+
 
     /* Close buttons and back button */
     #closeButton {
         padding: 10px 15px;
         font-size: 14px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 100; /* Ensures it's always on top */
     }
-
+    
+    /* Back Button (Right Panel) */
     .closeDetails {
-        position : relative;
-        padding : 100px;
-        /* padding: 20px 0px 0px 0px; */
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 10px 15px;
         font-size: 14px;
+        z-index: 100; /* Ensures visibility */
+    }
+    
+    /* ---------------------------- Responsive Styles ---------------------------- */
+    @media (max-width: 642px) {
+        #closeButton {
+            padding: 8px 12px; /* Slightly smaller padding */
+            font-size: 12px; /* Smaller font size for better fit */
+            top: 5px;
+            right: 5px;
+        }
+    
+        .closeDetails {
+            padding: 8px 12px;
+            font-size: 12px;
+            top: 5px;
+            left: 5px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        #closeButton{
+            padding: 6px 10px; /* Further reduced padding */
+            font-size: 12px; /* Smaller font for compact screens */
+            top: 5px;
+            
+        }
+        .closeDetails {
+            padding: 6px 30px; /* Further reduced padding */
+            font-size: 14px; /* Smaller font for compact screens */
+            top: 5px;
+            margin-left: 30px;
+        }
     }
 
     #sidePanel h2 {
@@ -210,10 +249,6 @@ svg path {
         padding: 15px; /* Adjust option padding */
         font-size: 14px;
     }
-}
-
-
-
 
 /* Gallery Styles */
 #imageGallery {
@@ -250,7 +285,6 @@ svg path {
 
 
 /*---------------- Country Card Style ------------------------ */
-/* Country Card Styles */
 .country-card { 
     margin-top: 40px;
     width: 400px;
@@ -308,50 +342,87 @@ svg path {
 /* ---------------------------- Mobile Responsive Styles ---------------------------- */
 @media (max-width: 768px) {
     .country-card {
-        width: 100%; /* Full width for tablets */
-        margin: 20px 0; /* Adjust margins for smaller screens */
+        width: 90%; /* Make it responsive */
+        margin: 20px auto; /* Center it */
     }
 
     .country-card img {
-        width: 100%; /* Image should take full width */
-        height: 200px; /* Adjust image height for better mobile fit */
+        width: 80%; /* Increase image width */
+        height: auto; /* Adjust height automatically */
     }
 
     .country-card h2 {
-        font-size: 24px; /* Smaller font size for titles */
+        font-size: 24px; /* Reduce title size */
     }
 
     .country-card .details p {
-        font-size: 16px; /* Smaller font size for text */
+        font-size: 16px;
     }
 
     .country-card .details p strong {
-        font-size: 18px; /* Adjust strong text size */
+        font-size: 18px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    .country-card {
+        width: 95%; /* Use almost full width */
+        margin: 15px auto;
+    }
+
+    .country-card img {
+        width: 90%;
+        height: auto;
+    }
+
+    .country-card h2 {
+        font-size: 22px;
+    }
+
+    .country-card .details p {
+        font-size: 14px;
+    }
+
+    .country-card .details p strong {
+        font-size: 16px;
+    }
+}
+
+/* ---------------- Back Button ---------------- */
+#detailsPanel .closeDetails {
+    position: absolute;
+    top: 10px;
+    right: 10px; /* Move it to the right */
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+#detailsPanel .closeDetails:hover {
+    background-color: darkred;
+}
+
+@media (max-width: 768px) {
+    #detailsPanel .closeDetails {
+        right: 15px; /* Slightly adjust for smaller screens */
+        font-size: 14px;
+        margin-left: 30px;
     }
 }
 
 @media (max-width: 480px) {
-    .country-card {
-        width: 100%; /* Full width for mobile screens */
-        margin: 15px 0; /* Adjust margins for small mobile devices */
-    }
-
-    .country-card img {
-        height: 180px; /* Slightly smaller image height for mobile */
-    }
-
-    .country-card h2 {
-        font-size: 20px; /* Even smaller font size for mobile */
-    }
-
-    .country-card .details p {
-        font-size: 14px; /* Further reduce text size */
-    }
-
-    .country-card .details p strong {
-        font-size: 16px; /* Adjust font size of strong text */
+    #detailsPanel .closeDetails {
+        right: 20px;
+        font-size: 13px;
+        padding: 8px 15px;
     }
 }
+
 
 
 /* Festival List */
