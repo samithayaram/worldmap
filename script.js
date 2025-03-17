@@ -202,10 +202,12 @@ document.querySelectorAll(".allPaths").forEach(e => {
         window.onmousemove = function(j) {
             const x = j.clientX;
             const y = j.clientY;
-            const nameDiv = document.getElementById('name');
-            nameDiv.style.top = y - 20 + 'px';
-            nameDiv.style.left = x + 10 + 'px';
+            const nameDiv = document.getElementById("name");
+
+            // Move tooltip slightly to the right of the cursor
+            nameDiv.style.transform = `translate(${x + 15}px, ${y}px)`;
         };
+        
         e.style.fill = "aqua";
         document.getElementById("namep").innerText = e.id;
         document.getElementById("name").style.opacity = 1;
@@ -214,6 +216,7 @@ document.querySelectorAll(".allPaths").forEach(e => {
     e.addEventListener("mouseleave", function() {
         e.style.fill = "#ececec";
         document.getElementById("name").style.opacity = 0;
+        window.onmousemove = null; // Stop tracking mouse movement
     });
 
     e.addEventListener("click", function() {
@@ -222,6 +225,7 @@ document.querySelectorAll(".allPaths").forEach(e => {
         document.getElementById("sidePanel").classList.add("open");
     });
 });
+
 
 // Close the sidebar
 document.getElementById("closeButton").addEventListener("click", function() {
