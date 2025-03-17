@@ -180,11 +180,11 @@ function populateOptions() {
     sportsOption.addEventListener("click", showSports);
     options.appendChild(sportsOption);
 
-    const sportsOption2 = document.createElement("div");
-    sportsOption2.classList.add("option");
-    sportsOption2.innerHTML =`<i class="fa-solid fa-cloud"></i> Weather`;
-    sportsOption2.addEventListener("click", showWeather);
-    options.appendChild(sportsOption2);
+    // const sportsOption2 = document.createElement("div");
+    // sportsOption2.classList.add("option");
+    // sportsOption2.innerHTML =`<i class="fa-solid fa-cloud"></i> Weather`;
+    // sportsOption2.addEventListener("click", showWeather);
+    // options.appendChild(sportsOption2);
 
 
 }
@@ -232,67 +232,67 @@ document.getElementById("closeButton").addEventListener("click", function() {
 // Fetch weather details
 
 
-const weatherApiKey = "5afa4206abf5802c12aab782fc9a3eb3";
-const weatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
-const weatherIcon = document.querySelector(".weather-icon");
+// const weatherApiKey = "5afa4206abf5802c12aab782fc9a3eb3";
+// const weatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+// const weatherIcon = document.querySelector(".weather-icon");
 
-// Fetch and display weather data for the selected country
-async function showWeather() {
-    document.getElementById("imageGallery").innerHTML = "";
-if (!selectedCountry) return;
+// // Fetch and display weather data for the selected country
+// async function showWeather() {
+//     document.getElementById("imageGallery").innerHTML = "";
+// if (!selectedCountry) return;
 
-// Use the selected country's name as the default city
-const city = selectedCountry;
+// // Use the selected country's name as the default city
+// const city = selectedCountry;
 
-const response = await fetch(weatherApiUrl + city + `&appid=${weatherApiKey}`);
-if (response.status === 404) {
-    document.querySelector(".weather-info").innerHTML = `<p>Weather data not available for ${selectedCountry}.</p>`;
-} else {
-    const data = await response.json();
-    const detailsPanel = document.getElementById("detailsContent");
+// const response = await fetch(weatherApiUrl + city + `&appid=${weatherApiKey}`);
+// if (response.status === 404) {
+//     document.querySelector(".weather-info").innerHTML = `<p>Weather data not available for ${selectedCountry}.</p>`;
+// } else {
+//     const data = await response.json();
+//     const detailsPanel = document.getElementById("detailsContent");
     
 
 
-detailsPanel.innerHTML = `
-  <h2>${selectedCountry} Weather</h2>
-  <div class="festival-list">
-      <div class="festival-card">
+// detailsPanel.innerHTML = `
+//   <h2>${selectedCountry} Weather</h2>
+//   <div class="festival-list">
+//       <div class="festival-card">
           
-          <h3>${data.name}</h3>
-          <div class= "pic">
-          <img src="${getWeatherIcon(data.weather[0].main)}" alt="${data.weather[0].main}"></div>
-          <p><strong>Temperature</strong> ${Math.round(data.main.temp)}°C</p>
-          <p><strong>Humadity</strong> ${data.main.humidity }%</p>
-          <p><strong>Wind</strong> ${data.wind.speed} km/h</p>
+//           <h3>${data.name}</h3>
+//           <div class= "pic">
+//           <img src="${getWeatherIcon(data.weather[0].main)}" alt="${data.weather[0].main}"></div>
+//           <p><strong>Temperature</strong> ${Math.round(data.main.temp)}°C</p>
+//           <p><strong>Humadity</strong> ${data.main.humidity }%</p>
+//           <p><strong>Wind</strong> ${data.wind.speed} km/h</p>
         
           
           
-      </div>
-  </div>
-`;
+//       </div>
+//   </div>
+// `;
 
-// Helper function to determine the weather icon
-function getWeatherIcon(weatherCondition) {
-switch (weatherCondition) {
-case "Clouds":
-    return "images/cloud.png";
-case "Clear":
-    return "images/clear.png";
-case "Rain":
-    return "images/rain.png";
-case "Drizzle":
-    return "images/drizzle.png";
-case "Mist":
-    return "images/mist.png";
-default:
-    return "images/weather-default.png"; // Fallback for unknown conditions
-}
-}
+// // Helper function to determine the weather icon
+// function getWeatherIcon(weatherCondition) {
+// switch (weatherCondition) {
+// case "Clouds":
+//     return "images/cloud.png";
+// case "Clear":
+//     return "images/clear.png";
+// case "Rain":
+//     return "images/rain.png";
+// case "Drizzle":
+//     return "images/drizzle.png";
+// case "Mist":
+//     return "images/mist.png";
+// default:
+//     return "images/weather-default.png"; // Fallback for unknown conditions
+// }
+// }
   
-// Show the weather panel
-document.getElementById("detailsPanel").classList.add("open");
-}
-}
+// // Show the weather panel
+// document.getElementById("detailsPanel").classList.add("open");
+// }
+// }
 
 
 // ---------------------------------------Festivals---------------------------------------
