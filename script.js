@@ -15,6 +15,7 @@ async function showCountryDetails() {
         const detailsPanel = document.getElementById("detailsContent");
         detailsPanel.textContent="";
         detailsPanel.innerHTML = `
+        
         <div class="country-card">
                 <div class="card-header">
                     <h2>${countryData.name.common}</h2>
@@ -28,6 +29,7 @@ async function showCountryDetails() {
                     <p class="languages"><strong>Languages:</strong> ${Object.values(countryData.languages || {}).join(', ')}</p>
                 </div>
             </div>
+        
         `;
         
         // Open the details panel
@@ -97,7 +99,7 @@ function showFestivals() {
                     .map(
                         festival => `
                     <div class="festival-card">
-                        <img src="${festival.image_url}" alt="${festival.name}">
+                        
                         <h3>${festival.name}</h3>
                         <p>${festival.description}</p>
                         <p><strong>Date:</strong> ${festival.date}</p>

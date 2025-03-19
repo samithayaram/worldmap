@@ -255,7 +255,7 @@ svg path {
             padding: 6px 30px; /* Further reduced padding */
             font-size: 14px; /* Smaller font for compact screens */
             top: 5px;
-            margin-left: 30px;
+          
         }
     }
 
@@ -278,12 +278,12 @@ svg path {
     grid-template-columns: repeat(3, 1fr); /* 3 columns for desktop */
     gap: 15px;
     padding: 20px;
+    max-width: 1200px; /* Centering */
+    margin: 0 auto;
     justify-content: center;
-    align-items: center;
-    max-width: 1200px; /* Limit width for better centering */
-    margin: 0 auto; /* Center the gallery */
 }
 
+/* Image styling */
 #imageGallery img {
     width: 100%;
     height: 250px;
@@ -292,42 +292,48 @@ svg path {
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-/* Hover effect for better UI */
+/* Hover effect */
 #imageGallery img:hover {
     transform: scale(1.05);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive Adjustments */
+/* ---------------- Responsive Adjustments ---------------- */
+
+/* Tablets */
 @media (max-width: 1024px) {
     #imageGallery {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns for larger tablets */
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+        max-width: 800px; /* Keep it centered */
     }
 }
 
+/* Smaller Tablets */
 @media (max-width: 768px) {
     #imageGallery {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
+        max-width: 600px; /* Center it */
     }
 }
 
+/* Mobile Screens (Fix Centering) */
 @media (max-width: 480px) {
     #imageGallery {
         display: flex;
         flex-direction: column;
-        align-items: center; /* Center images on mobile */
+        align-items: center; /* Ensure images are centered */
         justify-content: center;
+        gap: 15px; /* More spacing between images */
+        width: 100%;
     }
 
     #imageGallery img {
-        width: 90%; /* Slightly smaller for better mobile fit */
-        height: 200px;
+        width: 90%; /* Keep it responsive */
+        height: 200px; /* Adjust height automatically */
+        max-width: 400px; /* Prevent extra-wide images */
     }
 }
-
-
-
 
 /*---------------- Country Card Style ------------------------ */
 .country-card { 
@@ -413,7 +419,7 @@ svg path {
 @media (max-width: 480px) {
     .country-card {
         width: 95%; /* Use almost full width */
-        margin: 15px auto;
+        margin: 15px 30px;
     }
 
     .country-card img {
@@ -426,11 +432,11 @@ svg path {
     }
 
     .country-card .details p {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .country-card .details p strong {
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 
@@ -540,13 +546,32 @@ font-size: 20px;
 }
 /* Responsive Design */
 @media (max-width: 768px) {
-#detailsPanel {
-width: 100%;
-}
+    #detailsPanel {
+        width: 100%;
+    }
 
-.festival-card {
-margin: 0 auto;
-}
+    .festival-card {
+        margin: 15px 25px;
+        width: 100%;
+        height: auto;
+    }
+
+    /* Decreased font sizes */
+    .festival-card h3 {
+        font-size: 22px;
+    }
+    
+    .festival-card p {
+        font-size: 14px;
+    }
+
+    .festival-card p strong {
+        font-size: 14px;
+    }
+
+    .festival-card h4 {
+        font-size: 12px;
+    }
 }
 
 
